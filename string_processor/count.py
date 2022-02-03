@@ -28,19 +28,8 @@ def count_small_datasets(scrambled_strings: List[str], long_strings: List[str]) 
         max_idx = len(long_string)
         for scrambled_string in scrambled_strings:
             len_substr = len(scrambled_string)
-            if len_substr == 0:
-                # continue matching the next substring
-                continue
             scrambled_string_map = create_frequency_map(scrambled_string)
             for idx, letter in enumerate(long_string):
-                if len_substr < 3:
-                    if scrambled_string == long_string[idx:min(idx+len_substr, max_idx)]:
-                        counter += 1
-                        # stop matching if the substring is found 
-                        break
-                    else:
-                        # continue matching with the next letter
-                        continue
                 if idx == 0:
                     long_string_map = Counter(long_string[idx + 1:min(len_substr - 1, max_idx)])
                 else:
@@ -74,35 +63,27 @@ def count_large_datasets(scrambled_strings: List[str], long_strings: List[str]) 
         counter = set()
         max_idx = len(long_string)
         for len_substr, substrings in dict_scrambled_strings.items():
-            if len_substr == 0:
-                # continue matching the next set of substrings
-                continue
             for idx, letter in enumerate(long_string):
-                if len_substr < 3:
-                    for substr in substrings:
-                        if substr not in counter and substr == long_string[idx:min(idx + len_substr, max_idx)]:
-                            counter.add(substr)
+                if idx == 0:
+                    long_string_map = Counter(long_string[idx + 1:min(len_substr - 1, max_idx)])
                 else:
-                    if idx == 0:
-                        long_string_map = Counter(long_string[idx + 1:min(len_substr - 1, max_idx)])
+                    prev_value = long_string_map[letter]
+                    if long_string_map[letter] == 1:
+                        # Counter equality doesn't work if the count of an element is 0
+                        del long_string_map[letter]
                     else:
-                        prev_value = long_string_map[letter]
-                        if long_string_map[letter] == 1:
-                            # Counter equality doesn't work if the count of an element is 0
-                            del long_string_map[letter]
-                        else:
-                            long_string_map[letter] = prev_value - 1
-                        last_idx = idx + len_substr - 2
-                        if last_idx < max_idx:
-                            long_string_map[long_string[last_idx]] += 1
-                    for substr in substrings:
-                        # check if the first and last character is the same 
-                        # and the frequency of the middle letters is the same
-                        if substr not in counter and (substr[0] == long_string[idx] and
-                            idx + len_substr - 1 < max_idx and
-                            substr[-1] == long_string[idx + len_substr - 1] and
-                            create_frequency_map(substr) == long_string_map):
-                            counter.add(substr)
+                        long_string_map[letter] = prev_value - 1
+                    last_idx = idx + len_substr - 2
+                    if last_idx < max_idx:
+                        long_string_map[long_string[last_idx]] += 1
+                for substr in substrings:
+                    # check if the first and last character is the same 
+                    # and the frequency of the middle letters is the same
+                    if substr not in counter and (substr[0] == long_string[idx] and
+                        idx + len_substr - 1 < max_idx and
+                        substr[-1] == long_string[idx + len_substr - 1] and
+                        create_frequency_map(substr) == long_string_map):
+                        counter.add(substr)
         output.append(len(counter))     
     return output
 

@@ -24,34 +24,27 @@ class TestCreateFrequencyMap(unittest.TestCase):
 class TestCountSmallDatasets(unittest.TestCase):
     """ Testing function count_small_datasets """
     def setUp(self):
-        self.dictionary = ['axpaj', 'apxaj', 'dnrbt', 'pjxdn', 'abd', 'tx', '', 't']
+        self.dictionary = ['axpaj', 'apxaj', 'dnrbt', 'pjxdn', 'abd', 'tx']
 
     def test_count_small_datasets_long_string(self):
         """ Testing count_small_datasets with a long string """
-        self.assertEqual(count.count_small_datasets(self.dictionary, ['aapxjdnrbtvldptfzbbdbbzxtndrvjblnzjfpvhdhhpxjdnrbt']), [5])
-    
-    def test_count_small_datasets_multiple_long_string(self):
-        """ Testing count_small_datasets with a single letter string and empty string """
-        self.assertEqual(count.count_small_datasets(self.dictionary, ['t', '']), [1, 0])
+        self.assertEqual(count.count_small_datasets(self.dictionary, ['aapxjdnrbtvldptfzbbdbbzxtndrvjblnzjfpvhdhhpxjdnrbt']), [4])
+
     
     def test_count_small_datasets_two_characters_string(self):
         """ Testing count_small_datasets with a long string of size 2 """
-        self.assertEqual(count.count_small_datasets(self.dictionary, ['tx']), [2])
+        self.assertEqual(count.count_small_datasets(self.dictionary, ['tx']), [1])
 
 
 class TestCountLargeDatasets(unittest.TestCase):
     """ Testing function count_large_datasets """
     def setUp(self):
-        self.dictionary = ['axpaj', 'apxaj', 'dnrbt', 'pjxdn', 'abd', 'tx', '', 't']
+        self.dictionary = ['axpaj', 'apxaj', 'dnrbt', 'pjxdn', 'abd', 'tx']
 
     def test_count_large_datasets_long_string(self):
         """ Testing count_large_datasets with a long string """
-        self.assertEqual(count.count_large_datasets(self.dictionary, ['aapxjdnrbtvldptfzbbdbbzxtndrvjblnzjfpvhdhhpxjdnrbt']), [5])
-    
-    def test_count_large_datasets_multiple_long_string(self):
-        """ Testing count_large_datasets with a single letter string and empty string """
-        self.assertEqual(count.count_large_datasets(self.dictionary, ['t', '']), [1, 0])
+        self.assertEqual(count.count_large_datasets(self.dictionary, ['aapxjdnrbtvldptfzbbdbbzxtndrvjblnzjfpvhdhhpxjdnrbt']), [4])
     
     def test_count_large_datasets_two_characters_string(self):
         """ Testing count_large_datasets with a long string of size 2 """
-        self.assertEqual(count.count_large_datasets(self.dictionary, ['tx']), [2])
+        self.assertEqual(count.count_large_datasets(self.dictionary, ['tx']), [1])

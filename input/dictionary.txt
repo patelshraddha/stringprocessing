@@ -4,5 +4,3 @@ dnrbt
 pjxdn
 abd
 tx
-
-t
